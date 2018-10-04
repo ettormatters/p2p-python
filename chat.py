@@ -67,13 +67,27 @@ class Client:
                 print(str(data, 'utf-8'))
 
     def updatePeers(self, peerData):
-        #5:24
+        p2p.peers = str(peerData, "utf-8").split(",")[:-1]
 
-if (len(sys.argv) > 1):
-    client = Client(sys.argv[1])
-else:
-    server = Server()
+class p2p: 
+    peers = ['127.0.0.1']
 
 while True:
-    print("Trying to connect ...")
-    time.sleep(randint(1, 5))
+    try:
+        print("Trying to connect ...")
+        time.sleep(randint(1, 5))
+        for peer in p2p.peers:
+            try:
+                client = Client(peer)
+            except KeyboardInterrupt:
+                sys.exit(0)
+            except:
+                pass
+            try:
+                server = Server()
+            except KeyboardInterrupt:
+                sys.exit(0)
+            except:
+                print("Couldn't start the server ...")
+    except KeyboardInterrupt:
+        sys.exit(0)
