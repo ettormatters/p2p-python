@@ -9,6 +9,7 @@ class Server:
     peers = []
     def __init__(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(('0.0.0.0', 10000))
         sock.listen(1)
         print("Server running ...")
@@ -51,6 +52,7 @@ class Client:
 
     def __init__(self, address):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.connect((address, 1000))
 
         iThread = threading.Thread(target=self.sendMsg, args=(sock,))
@@ -83,11 +85,13 @@ while True:
                 sys.exit(0)
             except:
                 pass
-            try:
-                server = Server()
-            except KeyboardInterrupt:
-                sys.exit(0)
-            except:
-                print("Couldn't start the server ...")
+            if randint(1, 20) == 1:
+                try:
+                    server = Server()
+                except KeyboardInterrupt:
+                    sys.exit(0)
+                except:
+                    print("Couldn't start the server ...")
+
     except KeyboardInterrupt:
         sys.exit(0)
