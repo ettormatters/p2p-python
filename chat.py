@@ -39,7 +39,7 @@ class Server:
     def sendPeers(self):
         p = ""
         for peer in self.peers:
-            p = p +peer +","
+            p = p + peer + ","
 
         for connection in self.connections:
             connection.send(b'\x11' + bytes(p, "utf-8"))
@@ -85,13 +85,13 @@ while True:
                 sys.exit(0)
             except:
                 pass
-            if randint(1, 20) == 1:
-                try:
-                    server = Server()
-                except KeyboardInterrupt:
-                    sys.exit(0)
-                except:
-                    print("Couldn't start the server ...")
+            #if randint(1, 10) == 1:
+            try:
+                server = Server()
+            except KeyboardInterrupt:
+                sys.exit(0)
+            except:
+                print("Couldn't start the server ...")
 
     except KeyboardInterrupt:
         sys.exit(0)
